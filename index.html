@@ -7126,16 +7126,16 @@ function doTeacherReg(){toast('Teacher registration is managed by Admin only.','
 function doAdminLogin(){
   const id=document.getElementById('al-id').value.trim();
   const pass=document.getElementById('al-pass').value;
+  if(!id||!pass){toast('ID आणि Password टाका','error');return;}
   let storedPass=DB.get('adminPass');
   let storedUser=DB.get('adminUser');
-  /* First-run: seed default credentials so admin can log in */
+  /* First-run: seed defaults and continue to login check */
   if(!storedPass||!storedUser){
     storedUser='admin';
     storedPass='iqac@2024';
     DB.set('adminUser',storedUser);
     DB.set('adminPass',storedPass);
-    toast('⚠️ Default credentials set — ID: admin · Password: iqac@2024 — Please change after login!','info');
-    return;
+    // defaults seeded — continue to login check below
   }
   const validUser=(id===storedUser);
   if(validUser&&pass===storedPass){
